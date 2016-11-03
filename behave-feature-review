@@ -1,0 +1,88 @@
+{workflow:name=Behave Feature Review (in Development)|label=behave-feature|adminusers=PWalton|content=pages}
+    {description}
+        Feature Review Workflow with default parameters based on current space to define what the project should do
+    {description}
+    {workflow-instructions:style=info|title=Workflow Instructions}
+        Please make sure you define _Developers_ and _QA_ so they can be assigned for review
+    {workflow-instructions}
+    {pageheader}
+        || Status | {get-metadata:state>name} |
+        || Project Administrator | @Administrator@ |
+        || Designer | @Designer@ |
+        || Researcher | @Researcher@ |
+        || Stakeholder | @Stakeholder@ |
+        || Final Review | @Administrator@ |
+    {pageheader}
+    {workflowparameter:Project Administrators}
+        ZTruong, PWalton
+    {workflowparameter}
+    {workflowparameter:Stakeholder|type=user|edit=true}
+        PWalton
+    {workflowparameter}
+    {workflowparameter:UX|type=user|edit=true}
+        PWalton
+    {workflowparameter}
+    {workflowparameter:UI|type=user|edit=true}
+        PWalton
+    {workflowparameter}
+    {workflowparameter:Researcher|type=user|edit=true}
+        PWalton
+    {workflowparameter}
+    {workflowparameter:Developer|type=user|edit=true}
+        PWalton
+    {workflowparameter}
+    {workflowparameter:QA|type=user|edit=true}
+        PWalton
+    {workflowparameter}
+    {workflowparameter:Administrator|type=list|options=@Project Administrators@|edit=true}
+        PWalton
+    {workflowparameter}
+    {comment} ***** state-selection https://wiki.comalatech.com/display/CW/state-selection ***** {comment}
+    {comment} ***** state should reflect the specification review stage ***** {comment}
+    {state:Spec Updated|taskable=true|duedate=P5D|changeduedate=true}
+        {state-selection:states=Spec Updated, Research, Rejected, SignOff, Dev and QA,BDD Complete|user=@user@}
+    {state}
+    {state:Research|updated=Spec Updated|completed=SignOff|taskable=true|duedate=P5D|changeduedate=true}
+        {task:name=Additional Project documentation|assignee=@Administrator@|duedate=P5D|note=Please provide additional documentation if needed on sub-page per Spec Project Documentation Template.}
+        {task:name=Additional UX documentation|assignee=@UX@|duedate=P5D|note=Please provide additional documentation if needed on sub-page per Spec Documentation Template}
+        {task:name=Additional UI documentation|assignee=@UI@|duedate=P5D|note=Please provide additional documentation if needed on sub-page per Spec Documentation Template}
+        {task:name=Additional Development documentation|assignee=@Researcher@|duedate=P5D|note=Plese provide additional documentation if needed on sub-page per Spec Documentation Template}
+    {state}
+    {state:Rejected|completed=Spec Updated|taskable=true|duedate=P5D|changeduedate=true}
+        {task:name=Solve Feature Rejection Issue|assignee=@Administrator@|duedate=P5D|note=Solve Feature Rejection Issue}
+    {state}
+    {state:SignOff|approved=Dev and QA|rejected=Rejected|updated=Spec Updated|taskable=true|duedate=P5D|changeduedate=true}
+        {approval:Ready DEV and QA Review|assignable=true|rememberassignees=true|user=@Stakeholder@}
+    {state}
+    {state:Dev and QA|updated=Spec Updated|completed=BDD Complete|taskable=true|duedate=P5D|changeduedate=true}
+        {task:name=Review Scenarios from Developer perspective|assignee=@Developer@|duedate=P5D|note=Review Scenarios from Developers perspective}
+        {task:name=Review Scenarios from QA perspective|assignee=@QA@|duedate=P5D|note=Review Scenarios from QA perspective}
+    {state}
+    {state:BDD Complete|final=true|updated=Spec Updated}
+    {state}
+    {trigger:pageapprovalassigned|approval=Review for Design}
+        {send-email:user=@Designer@|subject=@content:title@, is pending your review and additional Mockups}
+        The latest feature draft can be viewed here: @pagelatest@
+        {send-email}
+    {trigger}
+    {trigger:pageapprovalassigned|approval=Research Solutions}
+        {send-email:user=@Researcher@|subject=@content:title@, is pending your review and providing solution}
+        The latest feature draft can be viewed here: @pagelatest@
+        {send-email}
+    {trigger}
+    {trigger:pageapprovalassigned|approval=Review Rejected Feature}
+        {send-email:user=@Administrator@|subject=@content:title@, was Rejected please review}
+        The latest feature draft can be viewed here: @pagelatest@
+        {send-email}
+    {trigger}
+    {trigger:pageapprovalassigned|approval=Project Administrator Reivew}
+        {send-email:user=@Administrator@|subject=@content:title@, is pending your Administrator review}
+        The latest feature draft can be viewed here: @pagelatest@
+        {send-email}
+    {trigger}
+    {trigger:pageapprovalassigned|approval=Final Review}
+        {send-email:user=@Administrator@|subject=@content:title@, is pending your Administrator review}
+        The latest feature draft can be viewed here: @pagelatest@
+        {send-email}
+    {trigger}
+{workflow}
