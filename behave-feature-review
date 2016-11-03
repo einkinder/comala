@@ -2,9 +2,11 @@
     {description}
         Feature Review Workflow with default parameters based on current space to define what the project should do
     {description}
+    
     {workflow-instructions:style=info|title=Workflow Instructions}
         Please make sure you define _Developers_ and _QA_ so they can be assigned for review
     {workflow-instructions}
+    
     {pageheader}
         || Status | {get-metadata:state>name} |
         || Project Administrator | @Administrator@ |
@@ -13,6 +15,7 @@
         || Stakeholder | @Stakeholder@ |
         || Final Review | @Administrator@ |
     {pageheader}
+    
     {workflowparameter:Project Administrators}
         ZTruong, PWalton
     {workflowparameter}
@@ -37,12 +40,15 @@
     {workflowparameter:Administrator|type=list|options=@Project Administrators@|edit=true}
         PWalton
     {workflowparameter}
+    
     {comment} ***** state-selection https://wiki.comalatech.com/display/CW/state-selection ***** {comment}
     {comment} ***** state should reflect the specification review stage ***** {comment}
+    
     {comment} ***** Intent:   ***** {comment}
     {state:Spec Updated|taskable=true|duedate=P5D|changeduedate=true}
         {state-selection:states=Spec Updated, Research, Rejected, SignOff, BDD Review,BDD Complete|user=@user@}
     {state}
+    
     {comment} ***** Q. Should this state be Documentation or Research ***** {comment}
     {comment} ***** What Project Documentation is Standard? Idea Brief? (look at the tool kit ***** {comment}
     {comment} ***** Intent:   ***** {comment}
@@ -53,25 +59,30 @@
         {task:name=Additional UI documentation|assignee=@UI@|duedate=P5D|note=Please provide additional documentation if needed on sub-page per Spec Documentation Template}
         {task:name=Additional Development documentation|assignee=@Researcher@|duedate=P5D|note=Plese provide additional documentation if needed on sub-page per Spec Documentation Template}
     {state}
-    {comment} ***** A rejecttion should send this back to the Spce updated stage for Administrator Review to Continue ***** {comment}
+    
+    {comment} ***** A rejection should send this back to the Spce updated stage for Administrator Review to Continue ***** {comment}
     {comment} ***** Intent:   ***** {comment}
     {state:Rejected|completed=Spec Updated|taskable=true|duedate=P5D|changeduedate=true}
         {task:name=Solve Feature Rejection Issue|assignee=@Administrator@|duedate=P5D|note=Solve Feature Rejection Issue}
     {state}
+    
     {comment} ***** Q. What to name this stage ***** {comment}
     {comment} ***** Intent:   ***** {comment}
     {state:SignOff|approved=BDD Review|rejected=Rejected|updated=Spec Updated|taskable=true|duedate=P5D|changeduedate=true}
         {approval:Ready BDD Review|assignable=true|rememberassignees=true|user=@Stakeholder@}
     {state}
+    
     {comment} ***** Q. What to name this stage Dev and QA or BDD Review ***** {comment}
     {comment} ***** Intent: Review, Refine and add scenarios ***** {comment}
     {state:BDD Review|updated=Spec Updated|completed=BDD Complete|taskable=true|duedate=P5D|changeduedate=true}
         {task:name=Review Scenarios from Developer perspective|assignee=@Developer@|duedate=P5D|note=Review Scenarios from Developers perspective}
         {task:name=Review Scenarios from QA perspective|assignee=@QA@|duedate=P5D|note=Review Scenarios from QA perspective}
     {state}
+    
     {comment} ***** Intent:   ***** {comment}
     {state:BDD Complete|final=true|updated=Spec Updated}
     {state}
+    
     {trigger:pageapprovalassigned|approval=Review for Design}
         {send-email:user=@Designer@|subject=@content:title@, is pending your review and additional Mockups}
         The latest feature draft can be viewed here: @pagelatest@
