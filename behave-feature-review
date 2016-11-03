@@ -37,28 +37,48 @@
     {workflowparameter:Administrator|type=list|options=@Project Administrators@|edit=true}
         PWalton
     {workflowparameter}
+    
     {comment} ***** state-selection https://wiki.comalatech.com/display/CW/state-selection ***** {comment}
     {comment} ***** state should reflect the specification review stage ***** {comment}
+    
+    {comment} ***** Intent:   ***** {comment}
     {state:Spec Updated|taskable=true|duedate=P5D|changeduedate=true}
-        {state-selection:states=Spec Updated, Research, Rejected, SignOff, Dev and QA,BDD Complete|user=@user@}
+        {state-selection:states=Spec Updated, Research, Rejected, SignOff, BDD Review, BDD Complete|user=@user@}
     {state}
+    
+    {comment} ***** Q. Should this state be Documentation or Research ***** {comment}
+    {comment} ***** What Project Documentation is Standard? Idea Brief? (look at the tool kit ***** {comment}
+    {comment} ***** Intent:   ***** {comment}
     {state:Research|updated=Spec Updated|completed=SignOff|taskable=true|duedate=P5D|changeduedate=true}
+        {task:name=Attach Idea Breif|assignee=@Administrator@|duedate=P5D|note=Please provide Idea Breif}
         {task:name=Additional Project documentation|assignee=@Administrator@|duedate=P5D|note=Please provide additional documentation if needed on sub-page per Spec Project Documentation Template.}
         {task:name=Additional UX documentation|assignee=@UX@|duedate=P5D|note=Please provide additional documentation if needed on sub-page per Spec Documentation Template}
         {task:name=Additional UI documentation|assignee=@UI@|duedate=P5D|note=Please provide additional documentation if needed on sub-page per Spec Documentation Template}
         {task:name=Additional Development documentation|assignee=@Researcher@|duedate=P5D|note=Plese provide additional documentation if needed on sub-page per Spec Documentation Template}
     {state}
+    
+    {comment} ***** A rejecttion should send this back to the Spce updated stage for Administrator Review to Continue ***** {comment}
+    {comment} ***** Intent:   ***** {comment}
     {state:Rejected|completed=Spec Updated|taskable=true|duedate=P5D|changeduedate=true}
         {task:name=Solve Feature Rejection Issue|assignee=@Administrator@|duedate=P5D|note=Solve Feature Rejection Issue}
     {state}
-    {state:SignOff|approved=Dev and QA|rejected=Rejected|updated=Spec Updated|taskable=true|duedate=P5D|changeduedate=true}
-        {approval:Ready DEV and QA Review|assignable=true|rememberassignees=true|user=@Stakeholder@}
+    
+    {comment} ***** Q. What to name this stage ***** {comment}
+    {comment} ***** Intent:   ***** {comment}
+    {state:SignOff|approved=BDD Review|rejected=Rejected|updated=Spec Updated|taskable=true|duedate=P5D|changeduedate=true}
+        {approval:Ready BDD Review|assignable=true|rememberassignees=true|user=@Stakeholder@}
     {state}
-    {state:Dev and QA|updated=Spec Updated|completed=BDD Complete|taskable=true|duedate=P5D|changeduedate=true}
+    
+    {comment} ***** Q. What to name this stage Dev and QA or BDD Review ***** {comment}
+    {comment} ***** Intent: Review, Refine and add scenarios ***** {comment}
+    {state:BDD Review|updated=Spec Updated|completed=BDD Complete|taskable=true|duedate=P5D|changeduedate=true}
         {task:name=Review Scenarios from Developer perspective|assignee=@Developer@|duedate=P5D|note=Review Scenarios from Developers perspective}
         {task:name=Review Scenarios from QA perspective|assignee=@QA@|duedate=P5D|note=Review Scenarios from QA perspective}
     {state}
+    
+    {comment} ***** Intent:   ***** {comment}
     {state:BDD Complete|final=true|updated=Spec Updated}
+    
     {state}
     {trigger:pageapprovalassigned|approval=Review for Design}
         {send-email:user=@Designer@|subject=@content:title@, is pending your review and additional Mockups}
