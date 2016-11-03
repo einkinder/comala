@@ -4,7 +4,9 @@
     {description}
     
     {workflow-instructions:style=info|title=Workflow Instructions}
-        Please make sure you define _Developers_ and _QA_ so they can be assigned for review
+        BDD is the process of evaluating how software needs to behave and then writing acceptance tests on which to base the code.
+        Where TDD is writing Unit tests for methods and building your classes around the unit tests (code, test, refactor).
+        BDD is in the language of the Business Owner, TDD is in the language of the developers.
     {workflow-instructions}
     
     {pageheader}
@@ -19,6 +21,7 @@
     {workflowparameter:Project Administrators}
         ZTruong, PWalton
     {workflowparameter}
+
     {workflowparameter:Stakeholder|type=user|edit=true}
         PWalton
     {workflowparameter}
@@ -46,7 +49,7 @@
     
     {comment} ***** Intent:   ***** {comment}
     {state:Spec Updated|taskable=true|duedate=P5D|changeduedate=true}
-        {state-selection:states=Spec Updated, Research, Rejected, SignOff, BDD Review,BDD Complete|user=@user@}
+        {state-selection:states=Spec Updated, Research, Rejected, SignOff, TDD Review, Feature Complete|user=@user@}
     {state}
     
     {comment} ***** Q. Should this state be Documentation or Research ***** {comment}
@@ -60,7 +63,7 @@
         {task:name=Additional Development documentation|assignee=@Researcher@|duedate=P5D|note=Plese provide additional documentation if needed on sub-page per Spec Documentation Template}
     {state}
     
-    {comment} ***** A rejection should send this back to the Spce updated stage for Administrator Review to Continue ***** {comment}
+    {comment} ***** A rejection should send this back to the Spec Updated state for Administrator Review to Continue ***** {comment}
     {comment} ***** Intent:   ***** {comment}
     {state:Rejected|completed=Spec Updated|taskable=true|duedate=P5D|changeduedate=true}
         {task:name=Solve Feature Rejection Issue|assignee=@Administrator@|duedate=P5D|note=Solve Feature Rejection Issue}
@@ -68,19 +71,19 @@
     
     {comment} ***** Q. What to name this stage ***** {comment}
     {comment} ***** Intent:   ***** {comment}
-    {state:SignOff|approved=BDD Review|rejected=Rejected|updated=Spec Updated|taskable=true|duedate=P5D|changeduedate=true}
-        {approval:Ready BDD Review|assignable=true|rememberassignees=true|user=@Stakeholder@}
+    {state:SignOff|approved=TDD Review|rejected=Rejected|updated=Spec Updated|taskable=true|duedate=P5D|changeduedate=true}
+        {approval:Ready TDD Review|assignable=true|rememberassignees=true|user=@Stakeholder@}
     {state}
     
-    {comment} ***** Q. What to name this stage Dev and QA or BDD Review ***** {comment}
+    {comment} ***** Q. What to name this stage Dev and QA or TDD Review ***** {comment}
     {comment} ***** Intent: Review, Refine and add scenarios ***** {comment}
-    {state:BDD Review|updated=Spec Updated|completed=BDD Complete|taskable=true|duedate=P5D|changeduedate=true}
+    {state:TDD Review|updated=Spec Updated|completed=Feature Complete|taskable=true|duedate=P5D|changeduedate=true}
         {task:name=Review Scenarios from Developer perspective|assignee=@Developer@|duedate=P5D|note=Review Scenarios from Developers perspective}
         {task:name=Review Scenarios from QA perspective|assignee=@QA@|duedate=P5D|note=Review Scenarios from QA perspective}
     {state}
     
     {comment} ***** Intent:   ***** {comment}
-    {state:BDD Complete|final=true|updated=Spec Updated}
+    {state:Feature Complete|final=true|updated=Spec Updated}
     {state}
     
     {trigger:pageapprovalassigned|approval=Review for Design}
